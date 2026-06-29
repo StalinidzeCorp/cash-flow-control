@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Status, Type, Category, Subcategory, CashFlowRecord
+
+from .models import CashFlowRecord, Category, Status, Subcategory, Type
 
 
 @admin.register(Status)
@@ -14,15 +15,15 @@ class TypeAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')
+    list_display = ("name", "type")
 
 
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category')
+    list_display = ("name", "category")
 
 
 @admin.register(CashFlowRecord)
 class CashFlowRecordAdmin(admin.ModelAdmin):
-    list_display = ('date', 'status', 'type', 'category', 'subcategory', 'amount')
-    list_filter = ('status', 'type', 'category')
+    list_display = ("date", "status", "type", "category", "subcategory", "amount")
+    list_filter = ("status", "type", "category")

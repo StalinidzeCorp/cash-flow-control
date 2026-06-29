@@ -4,25 +4,24 @@ from django.db import migrations
 
 
 def seed_initial_data(apps, schema_editor):
-    Status = apps.get_model('cashflow', 'Status')
-    Type = apps.get_model('cashflow', 'Type')
+    Status = apps.get_model("cashflow", "Status")
+    Type = apps.get_model("cashflow", "Type")
 
     Status.objects.bulk_create([
-        Status(name='Бизнес'),
-        Status(name='Личное'),
-        Status(name='Налог'),
+        Status(name="Бизнес"),
+        Status(name="Личное"),
+        Status(name="Налог"),
     ])
 
     Type.objects.bulk_create([
-        Type(name='Пополнение'),
-        Type(name='Списание'),
+        Type(name="Пополнение"),
+        Type(name="Списание"),
     ])
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('cashflow', '0002_alter_cashflowrecord_options_alter_category_options_and_more'),
+        ("cashflow", "0002_alter_cashflowrecord_options_alter_category_options_and_more"),
     ]
 
     operations = [

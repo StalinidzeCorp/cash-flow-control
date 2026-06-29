@@ -7,3 +7,126 @@ dependencies = [
     "ruff>=0.15.20",
     "ty>=0.0.55",
 ]
+
+[tool.uv]
+required-version = ">=0.7.13"
+
+[tool.ruff]
+line-length = 99
+target-version = "py314"
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 120
+
+[tool.ruff.lint]
+preview = true
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = [
+    "E",
+    "F",
+    "I",
+    "C",
+    "B",
+    "W",
+    "ERA",
+    "S",
+    "BLE",
+    "FBT",
+    "A",
+    "COM",
+    "DTZ",
+    "T10",
+    "EM",
+    "FA",
+    "ISC",
+    "ICN",
+    "LOG",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "TID",
+    "ARG",
+    "PTH",
+    "FLY",
+    "C90",
+    "N",
+    "PERF",
+    "DOC",
+    "PGH",
+    "PL",
+    "UP",
+    "RUF",
+    "TRY"
+]
+ignore = [
+    "RUF012",
+    "S101",
+    "DOC201",
+    "EM101",
+    "TRY003",
+    "S105",
+    "PLR0917",
+    "PLR0913",
+    "EM102",
+    "N802",
+    "TRY300",
+    "FIX",
+    "TD",
+    "COM812",
+    "DOC501",
+    "PGH003",
+    "RUF067",
+    "RUF001",
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"manage.py" = ["PLC0415"]
+"cashflow/migrations/*" = ["ARG001"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.format]
+preview = true
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ty.rules]
+# changed default "ignore" to "warn"
+division-by-zero = "warn"
+possibly-missing-import = "warn"
+possibly-unresolved-reference = "warn"
+unsupported-dynamic-base = "warn"
+unresolved-attribute = "ignore"
+
+[tool.ty.terminal]
+output-format = "full"
