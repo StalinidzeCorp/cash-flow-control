@@ -27,7 +27,11 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    {{ user.username }} | <a class="text-white text-decoration-none" href="{% url 'logout' %}">Выйти</a>
+                    {{ user.username }}
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link text-white text-decoration-none p-0 border-0 align-baseline">Выйти</button>
+                    </form>
                 </span>
             </div>
         </div>
