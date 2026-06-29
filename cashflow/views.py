@@ -55,11 +55,9 @@ class DirectoryCreateView(LoginRequiredMixin, CreateView):
     def get_form_class(self):
         from django.forms import ModelForm
         model = self.get_model()
-        class F(ModelForm):
-            class Meta:
-                model = model
-                fields = '__all__'
-        return F
+        return type('DirectoryForm', (ModelForm,), {
+            'Meta': type('Meta', (), {'model': model, 'fields': '__all__'})
+        })
 
     def get_success_url(self):
         return reverse_lazy('directory_list', kwargs={'model_name': self.kwargs['model_name']})
@@ -79,11 +77,9 @@ class DirectoryUpdateView(LoginRequiredMixin, UpdateView):
     def get_form_class(self):
         from django.forms import ModelForm
         model = self.get_model()
-        class F(ModelForm):
-            class Meta:
-                model = model
-                fields = '__all__'
-        return F
+        return type('DirectoryForm', (ModelForm,), {
+            'Meta': type('Meta', (), {'model': model, 'fields': '__all__'})
+        })
 
     def get_object(self, queryset=None):
         return self.get_model().objects.get(pk=self.kwargs['pk'])
