@@ -146,6 +146,7 @@ class RecordListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset().select_related('status', 'type', 'category', 'subcategory')
+        qs = qs.filter(user=self.request.user)
         params = self.request.GET
 
         date_from = params.get('date_from')
@@ -186,12 +187,19 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
     template_name = 'cashflow/record_form.html'
     success_url = reverse_lazy('record_list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class RecordUpdateView(LoginRequiredMixin, UpdateView):
     model = CashFlowRecord
     form_class = RecordForm
     template_name = 'cashflow/record_form.html'
     success_url = reverse_lazy('record_list')
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -203,3 +211,6 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
     model = CashFlowRecord
     template_name = 'cashflow/record_confirm_delete.html'
     success_url = reverse_lazy('record_list')
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)

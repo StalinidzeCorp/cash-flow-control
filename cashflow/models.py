@@ -69,6 +69,9 @@ class Subcategory(TimeStampedMixin, NamedMixin):
 
 
 class CashFlowRecord(TimeStampedMixin):
+    user = models.ForeignKey(
+        'auth.User', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Пользователь'
+    )
     date = models.DateField(default=date.today, verbose_name='Дата')
     status = models.ForeignKey(
         Status, on_delete=models.PROTECT, verbose_name='Статус'
