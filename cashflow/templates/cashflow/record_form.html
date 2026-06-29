@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{% if is_update %}Изменить{% else %}Создать{% endif %} запись{% endblock %}
+{% block content %}
+<h2>{% if is_update %}Изменить{% else %}Создать{% endif %} запись</h2>
+<form method="post" class="mt-3" style="max-width: 600px;" id="record-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'record_list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

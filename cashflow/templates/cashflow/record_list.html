@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Главная — ДДС{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Записи ДДС</h2>
+    <a href="{% url 'record_create' %}" class="btn btn-primary">+ Создать запись</a>
+</div>
+
+<form method="get" class="row g-2 mb-4 p-3 border rounded bg-light">
+    <div class="col-md-2">
+        <label class="form-label">Дата с</label>
+        <input type="date" name="date_from" class="form-control" value="{{ filter_params.date_from }}">
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Дата по</label>
+        <input type="date" name="date_to" class="form-control" value="{{ filter_params.date_to }}">
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Статус</label>
+        <select name="status" class="form-select">
+            <option value="">Все</option>
+            {% for s in statuses %}
+                <option value="{{ s.pk }}" {% if filter_params.status == s.pk|stringformat:"s" %}selected{% endif %}>{{ s.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Тип</label>
+        <select name="type" class="form-select">
+            <option value="">Все</option>
+            {% for t in types %}
+                <option value="{{ t.pk }}" {% if filter_params.type == t.pk|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Категория</label>
+        <select name="category" class="form-select">
+            <option value="">Все</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Подкатегория</label>
+        <select name="subcategory" class="form-select">
+            <option value="">Все</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Применить фильтры</button>
+        <a href="{% url 'record_list' %}" class="btn btn-outline-secondary">Сбросить</a>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in object_list %}
+        <tr>
+            <td>{{ record.date|date:"d.m.Y" }}</td>
+            <td>{{ record.status.name }}</td>
+            <td>{{ record.type.name }}</td>
+            <td>{{ record.category.name }}</td>
+            <td>{{ record.subcategory.name }}</td>
+            <td>{{ record.amount|floatformat:2 }} р.</td>
+            <td>{{ record.comment|truncatewords:10 }}</td>
+            <td>
+                <a href="{% url 'record_edit' pk=record.pk %}" class="btn btn-sm btn-outline-secondary">Изменить</a>
+                <a href="{% url 'record_delete' pk=record.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8">Нет записей.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if page_obj.has_other_pages %}
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% for key, value in filter_params.items %}&{{ key }}={{ value }}{% endfor %}">Назад</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% for key, value in filter_params.items %}&{{ key }}={{ value }}{% endfor %}">Вперёд</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
