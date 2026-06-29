@@ -6,7 +6,7 @@ from .models import CashFlowRecord
 class RecordForm(forms.ModelForm):
     class Meta:
         model = CashFlowRecord
-        fields = '__all__'
+        exclude = ('user',)
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
